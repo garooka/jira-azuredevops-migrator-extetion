@@ -1,80 +1,80 @@
 ﻿using Newtonsoft.Json;
-***REMOVED***
-***REMOVED***
+using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 
 namespace Migration.WIContract
-***REMOVED***
+{
     public enum ReferenceChangeType
-    ***REMOVED***
-***REMOVED***   Added,
-***REMOVED***   Removed
-***REMOVED***
+    {
+        Added,
+        Removed
+    }
 
     public enum TemplateType
-    ***REMOVED***
-***REMOVED***   Scrum,
-***REMOVED***   Agile,
-***REMOVED***   CMMI
-***REMOVED***
+    {
+        Scrum,
+        Agile,
+        CMMI
+    }
 
     public class WorkItemType
-    ***REMOVED***
-***REMOVED***   public static string ProductBacklogItem => "Product Backlog Item";
-***REMOVED***   public static string UserStory => "User Story";
-***REMOVED***   public static string Requirement => "Requirement";
-***REMOVED***   public static string Bug => "Bug";
-***REMOVED***   public static string Task => "Task";
-***REMOVED***   public static string Epic => "Epic";
-***REMOVED***   public static string Feature => "Feature";
+    {
+        public static string ProductBacklogItem => "Product Backlog Item";
+        public static string UserStory => "User Story";
+        public static string Requirement => "Requirement";
+        public static string Bug => "Bug";
+        public static string Task => "Task";
+        public static string Epic => "Epic";
+        public static string Feature => "Feature";
 
-***REMOVED***   public static List<string> GetWorkItemTypes(string notFor = "")
-***REMOVED***   ***REMOVED***
-***REMOVED******REMOVED***  var list = new List<string>();
-***REMOVED******REMOVED***  var properties = typeof(WorkItemType).GetProperties();
-***REMOVED******REMOVED***  foreach (var prop in properties)
-***REMOVED******REMOVED***  ***REMOVED***
-***REMOVED******REMOVED******REMOVED*** var value = prop.GetValue(typeof(WorkItemType)).ToString();
-***REMOVED******REMOVED******REMOVED*** if (!string.IsNullOrWhiteSpace(notFor))
-***REMOVED******REMOVED******REMOVED*** ***REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED***if (value != notFor)
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED***    list.Add(value);
-***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED***
-***REMOVED******REMOVED******REMOVED*** ***REMOVED***
-***REMOVED******REMOVED******REMOVED*** else
-***REMOVED******REMOVED******REMOVED*** ***REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED***list.Add(value);
-***REMOVED******REMOVED******REMOVED*** ***REMOVED***
-***REMOVED******REMOVED***  ***REMOVED***
-***REMOVED******REMOVED***  return list;
-***REMOVED***   ***REMOVED***
-***REMOVED***
+        public static List<string> GetWorkItemTypes(string notFor = "")
+        {
+            var list = new List<string>();
+            var properties = typeof(WorkItemType).GetProperties();
+            foreach (var prop in properties)
+            {
+                var value = prop.GetValue(typeof(WorkItemType)).ToString();
+                if (!string.IsNullOrWhiteSpace(notFor))
+                {
+                    if (value != notFor)
+                    {
+                        list.Add(value);
+                    }
+                }
+                else
+                {
+                    list.Add(value);
+                }
+            }
+            return list;
+        }
+    }
 
     public class WiRevision
-    ***REMOVED***
-***REMOVED***   public WiRevision()
-***REMOVED***   ***REMOVED***
-***REMOVED******REMOVED***  Fields = new List<WiField>();
-***REMOVED******REMOVED***  Links = new List<WiLink>();
-***REMOVED******REMOVED***  Attachments = new List<WiAttachment>();
-***REMOVED***   ***REMOVED***
+    {
+        public WiRevision()
+        {
+            Fields = new List<WiField>();
+            Links = new List<WiLink>();
+            Attachments = new List<WiAttachment>();
+        }
 
-***REMOVED***   [JsonIgnore]
-***REMOVED***   public string ParentOriginId ***REMOVED*** get; set; ***REMOVED***
-***REMOVED***   public string Author ***REMOVED*** get; set; ***REMOVED***
-***REMOVED***   public DateTime Time ***REMOVED*** get; set; ***REMOVED*** = DateTime.Now;
-***REMOVED***   public int Index ***REMOVED*** get; set; ***REMOVED*** = 1;
-***REMOVED***   public List<WiField> Fields ***REMOVED*** get; set; ***REMOVED***
-***REMOVED***   public List<WiLink> Links ***REMOVED*** get; set; ***REMOVED***
-***REMOVED***   public List<WiAttachment> Attachments ***REMOVED*** get; set; ***REMOVED***
+        [JsonIgnore]
+        public string ParentOriginId { get; set; }
+        public string Author { get; set; }
+        public DateTime Time { get; set; } = DateTime.Now;
+        public int Index { get; set; } = 1;
+        public List<WiField> Fields { get; set; }
+        public List<WiLink> Links { get; set; }
+        public List<WiAttachment> Attachments { get; set; }
 
-***REMOVED***   [DefaultValue(false)]
-***REMOVED***   public bool AttachmentReferences ***REMOVED*** get; set; ***REMOVED*** = false;
+        [DefaultValue(false)]
+        public bool AttachmentReferences { get; set; } = false;
 
-***REMOVED***   public override string ToString()
-***REMOVED***   ***REMOVED***
-***REMOVED******REMOVED***  return $"(***REMOVED***ParentOriginId***REMOVED***, ***REMOVED***Index***REMOVED***)";
-***REMOVED***   ***REMOVED***
-***REMOVED***
-***REMOVED***
+        public override string ToString()
+        {
+            return $"({ParentOriginId}, {Index})";
+        }
+    }
+}

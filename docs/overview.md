@@ -38,13 +38,13 @@ The process below describes the high-level steps requred to migrate data from Ji
 
 1. Define a [Jira JQL filter](https://confluence.atlassian.com/jirasoftwarecloud/advanced-searching-764478330.html#Advancedsearching-ConstructingJQLqueries) for the items to export, for instance here's how to export all stories and sub-tasks from the SCRUM project:
 
-***REMOVED***   project = SCRUM AND issuetype in (Story, Sub-task) ORDER BY Rank ASC
+        project = SCRUM AND issuetype in (Story, Sub-task) ORDER BY Rank ASC
 
 2. Define how to map users
   
     This is an optional step but it's common that the names/account in Jira and Azure DevOps/TFS are different. Map Jira users to Azure DevOps/TFS users in a text file with email value pairs like this:
 
-***REMOVED***   Jira.User@some.domain=AzureDevOps.User@some.domain
+        Jira.User@some.domain=AzureDevOps.User@some.domain
 
 3. Define [configuration](config.md) for the migration process.
 

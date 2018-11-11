@@ -1,26 +1,26 @@
 ﻿using Newtonsoft.Json;
 
 namespace Migration.WIContract
-***REMOVED***
+{
     public class WiLink
-    ***REMOVED***
-***REMOVED***   public ReferenceChangeType Change ***REMOVED*** get; set; ***REMOVED***
+    {
+        public ReferenceChangeType Change { get; set; }
 
-***REMOVED***   [JsonIgnore]
-***REMOVED***   public string SourceOriginId ***REMOVED*** get; set; ***REMOVED***
+        [JsonIgnore]
+        public string SourceOriginId { get; set; }
 
-***REMOVED***   public string TargetOriginId ***REMOVED*** get; set; ***REMOVED***
+        public string TargetOriginId { get; set; }
 
-***REMOVED***   [JsonIgnore]
-***REMOVED***   public int SourceWiId ***REMOVED*** get; set; ***REMOVED***
+        [JsonIgnore]
+        public int SourceWiId { get; set; }
 
-***REMOVED***   public int TargetWiId ***REMOVED*** get; set; ***REMOVED***
+        public int TargetWiId { get; set; }
 
-***REMOVED***   public string WiType ***REMOVED*** get; set; ***REMOVED***
+        public string WiType { get; set; }
 
-***REMOVED***   public override string ToString()
-***REMOVED***   ***REMOVED***
-***REMOVED******REMOVED***  return $"[***REMOVED***Change.ToString()***REMOVED***] ***REMOVED***SourceOriginId***REMOVED***/***REMOVED***SourceWiId***REMOVED***->***REMOVED***TargetOriginId***REMOVED***/***REMOVED***TargetWiId***REMOVED*** [***REMOVED***WiType***REMOVED***]";
-***REMOVED***   ***REMOVED***
-***REMOVED***
-***REMOVED***
+        public override string ToString()
+        {
+            return $"[{Change.ToString()}] {SourceOriginId}/{SourceWiId}->{TargetOriginId}/{TargetWiId} [{WiType}]";
+        }
+    }
+}

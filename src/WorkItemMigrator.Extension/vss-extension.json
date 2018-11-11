@@ -1,4 +1,4 @@
-***REMOVED***
+{
     "manifestVersion": 1,
     "id": "jira-devops-migration",
     "name": "Jira to Azure DevOps/TFS work item migration tool",
@@ -6,54 +6,54 @@
     "public": false,
     "publisher": "solidify-labs",
     "targets": [
-***REMOVED*** ***REMOVED***
-***REMOVED***   "id": "Microsoft.VisualStudio.Services.Integration"
-***REMOVED*** ***REMOVED***
+      {
+        "id": "Microsoft.VisualStudio.Services.Integration"
+      }
     ],
     "description": "Jira to Azure DevOps Migration Tool. Using this tool you can export data from Jira and import it as work items in Azure DevOps and Team Foundation Server.",
     "categories": [
-***REMOVED*** "Integrate"
+      "Integrate"
     ],
     "tags": [
-***REMOVED*** "migration",
-***REMOVED*** "jira"
+      "migration",
+      "jira"
     ],
-    "links": ***REMOVED***
-***REMOVED*** "home": ***REMOVED***
-***REMOVED***   "uri": "https://github.com/solidify/jira-azuredevops-migrator"
-***REMOVED*** ***REMOVED***,
-***REMOVED*** "getstarted": ***REMOVED***
-***REMOVED***   "uri": "https://github.com/solidify/jira-azuredevops-migrator"
-***REMOVED*** ***REMOVED***,
-***REMOVED*** "learn": ***REMOVED***
-***REMOVED***   "uri": "https://github.com/solidify/jira-azuredevops-migrator"
-***REMOVED*** ***REMOVED***,
-***REMOVED*** "support": ***REMOVED***
-***REMOVED***   "uri": "https://github.com/solidify/jira-azuredevops-migrator/issues"
-***REMOVED*** ***REMOVED***
-***REMOVED***,
-    "repository": ***REMOVED***
-***REMOVED*** "type": "git",
-***REMOVED*** "uri": "https://github.com/solidify/jira-azuredevops-migrator.git"
-***REMOVED***,
-    "icons": ***REMOVED***
-***REMOVED*** "default": "images/extension-icon.png"
-***REMOVED***,
-    "branding": ***REMOVED***
-***REMOVED*** "color": "rgb(0, 0, 0)",
-***REMOVED*** "theme": "dark"
-***REMOVED***,
+    "links": {
+      "home": {
+        "uri": "https://github.com/solidify/jira-azuredevops-migrator"
+      },
+      "getstarted": {
+        "uri": "https://github.com/solidify/jira-azuredevops-migrator"
+      },
+      "learn": {
+        "uri": "https://github.com/solidify/jira-azuredevops-migrator"
+      },
+      "support": {
+        "uri": "https://github.com/solidify/jira-azuredevops-migrator/issues"
+      }
+    },
+    "repository": {
+      "type": "git",
+      "uri": "https://github.com/solidify/jira-azuredevops-migrator.git"
+    },
+    "icons": {
+      "default": "images/extension-icon.png"
+    },
+    "branding": {
+      "color": "rgb(0, 0, 0)",
+      "theme": "dark"
+    },
     "screenshots": [
-***REMOVED*** ***REMOVED***
-***REMOVED***   "path": "images/screenshot1.png"
-***REMOVED*** ***REMOVED***
+      {
+        "path": "images/screenshot1.png"
+      }
     ],
-    "content": ***REMOVED***
-***REMOVED*** "details": ***REMOVED***
-***REMOVED***   "path": "README.md"
-***REMOVED*** ***REMOVED***,
-***REMOVED*** "license": ***REMOVED***
-***REMOVED***   "path": "LICENSE.md"
-***REMOVED*** ***REMOVED***
-***REMOVED***
-  ***REMOVED***
+    "content": {
+      "details": {
+        "path": "README.md"
+      },
+      "license": {
+        "path": "LICENSE.md"
+      }
+    }
+  }

@@ -1,31 +1,31 @@
-﻿***REMOVED***
-***REMOVED***
-***REMOVED***
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-***REMOVED***
-***REMOVED***
+namespace JiraExport
+{
     public class JiraSettings
-    ***REMOVED***
-***REMOVED***   public string UserID ***REMOVED*** get; private set; ***REMOVED***
-***REMOVED***   public string Pass ***REMOVED*** get; private set; ***REMOVED***
-***REMOVED***   public string Url ***REMOVED*** get; private set; ***REMOVED***
-***REMOVED***   public string Project ***REMOVED*** get; internal set; ***REMOVED***
-***REMOVED***   public string EpicLinkField ***REMOVED*** get; internal set; ***REMOVED***
-***REMOVED***   public string SprintField ***REMOVED*** get; internal set; ***REMOVED*** 
-***REMOVED***   public string StoryPointsField ***REMOVED*** get; internal set; ***REMOVED***
-***REMOVED***   public string UserMappingFile ***REMOVED*** get; internal set; ***REMOVED***
-***REMOVED***   public int BatchSize ***REMOVED*** get; internal set; ***REMOVED***
-***REMOVED***   public string AttachmentsDir ***REMOVED*** get; internal set; ***REMOVED***
-***REMOVED***   public string JQL ***REMOVED*** get; internal set; ***REMOVED***
+    {
+        public string UserID { get; private set; }
+        public string Pass { get; private set; }
+        public string Url { get; private set; }
+        public string Project { get; internal set; }
+        public string EpicLinkField { get; internal set; }
+        public string SprintField { get; internal set; } 
+        public string StoryPointsField { get; internal set; }
+        public string UserMappingFile { get; internal set; }
+        public int BatchSize { get; internal set; }
+        public string AttachmentsDir { get; internal set; }
+        public string JQL { get; internal set; }
 
-***REMOVED***   public JiraSettings(string userID, string pass, string url, string project)
-***REMOVED***   ***REMOVED***
-***REMOVED******REMOVED***  UserID = userID;
-***REMOVED******REMOVED***  Pass = pass;
-***REMOVED******REMOVED***  Url = url;
-***REMOVED******REMOVED***  Project = project;
-***REMOVED***   ***REMOVED***
-***REMOVED***
-***REMOVED***
+        public JiraSettings(string userID, string pass, string url, string project)
+        {
+            UserID = userID;
+            Pass = pass;
+            Url = url;
+            Project = project;
+        }
+    }
+}

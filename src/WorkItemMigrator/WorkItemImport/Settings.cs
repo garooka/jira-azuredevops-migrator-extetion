@@ -1,20 +1,20 @@
 ﻿namespace WorkItemImport
-***REMOVED***
+{
     public class Settings
-    ***REMOVED***
-***REMOVED***   public Settings(string account, string project, string pat)
-***REMOVED***   ***REMOVED***
-***REMOVED******REMOVED***  Account = account;
-***REMOVED******REMOVED***  Project = project;
-***REMOVED******REMOVED***  Pat = pat;
-***REMOVED***   ***REMOVED***
+    {
+        public Settings(string account, string project, string pat)
+        {
+            Account = account;
+            Project = project;
+            Pat = pat;
+        }
 
-***REMOVED***   public string Account ***REMOVED*** get; private set; ***REMOVED***
-***REMOVED***   public string Project ***REMOVED*** get; private set; ***REMOVED******REMOVED***   
-***REMOVED***   public string Pat ***REMOVED*** get; private set; ***REMOVED***
-***REMOVED***   public string BaseAreaPath ***REMOVED*** get; internal set; ***REMOVED***
-***REMOVED***   public string BaseIterationPath ***REMOVED*** get; internal set; ***REMOVED***
-***REMOVED***   public bool IgnoreFailedLinks ***REMOVED*** get; internal set; ***REMOVED***
-***REMOVED***   public string ProcessTemplate ***REMOVED*** get; internal set; ***REMOVED***
-***REMOVED***
-***REMOVED***
+        public string Account { get; private set; }
+        public string Project { get; private set; }        
+        public string Pat { get; private set; }
+        public string BaseAreaPath { get; internal set; }
+        public string BaseIterationPath { get; internal set; }
+        public bool IgnoreFailedLinks { get; internal set; }
+        public string ProcessTemplate { get; internal set; }
+    }
+}

@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>***REMOVED***3D3E0FD1-05FC-454B-828A-9004D3DDB296***REMOVED***</ProjectGuid>
+    <ProjectGuid>{3D3E0FD1-05FC-454B-828A-9004D3DDB296}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Migration.Common</RootNamespace>
@@ -32,12 +32,12 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-***REMOVED*** <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-***REMOVED*** <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net47\System.ValueTuple.dll</HintPath>
+      <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net47\System.ValueTuple.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -69,8 +69,8 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Migration.WIContract\Migration.WIContract.csproj">
-***REMOVED*** <Project>***REMOVED***19b3af60-8be6-47fc-9911-7829455b3557***REMOVED***</Project>
-***REMOVED*** <Name>Migration.WIContract</Name>
+      <Project>{19b3af60-8be6-47fc-9911-7829455b3557}</Project>
+      <Name>Migration.WIContract</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

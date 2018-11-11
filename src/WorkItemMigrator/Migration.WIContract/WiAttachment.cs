@@ -1,17 +1,17 @@
-﻿***REMOVED***
+﻿using System.IO;
 
 namespace Migration.WIContract
-***REMOVED***
+{
     public class WiAttachment
-    ***REMOVED***
-***REMOVED***   public ReferenceChangeType Change ***REMOVED*** get; set; ***REMOVED***
-***REMOVED***   public string FilePath ***REMOVED*** get; set; ***REMOVED***
-***REMOVED***   public string Comment ***REMOVED*** get; set; ***REMOVED***
-***REMOVED***   public string AttOriginId ***REMOVED*** get; set; ***REMOVED***
+    {
+        public ReferenceChangeType Change { get; set; }
+        public string FilePath { get; set; }
+        public string Comment { get; set; }
+        public string AttOriginId { get; set; }
 
-***REMOVED***   public override string ToString()
-***REMOVED***   ***REMOVED***
-***REMOVED******REMOVED***  return $"[***REMOVED***Change.ToString()***REMOVED***] ***REMOVED***AttOriginId***REMOVED***/***REMOVED***Path.GetFileName(FilePath)***REMOVED***";
-***REMOVED***   ***REMOVED***
-***REMOVED***
-***REMOVED***
+        public override string ToString()
+        {
+            return $"[{Change.ToString()}] {AttOriginId}/{Path.GetFileName(FilePath)}";
+        }
+    }
+}

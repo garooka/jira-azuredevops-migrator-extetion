@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>***REMOVED***600E6ED8-49FD-46F0-8498-ADEADAEBDF6C***REMOVED***</ProjectGuid>
+    <ProjectGuid>{600E6ED8-49FD-46F0-8498-ADEADAEBDF6C}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <RootNamespace>JiraExport</RootNamespace>
     <AssemblyName>jira-export</AssemblyName>
@@ -67,16 +67,16 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Atlassian.Jira, Version=10.4.0.0, Culture=neutral, processorArchitecture=MSIL">
-***REMOVED*** <HintPath>..\packages\Atlassian.SDK.10.4.0\lib\net452\Atlassian.Jira.dll</HintPath>
+      <HintPath>..\packages\Atlassian.SDK.10.4.0\lib\net452\Atlassian.Jira.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Extensions.CommandLineUtils, Version=1.1.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
-***REMOVED*** <HintPath>..\packages\Microsoft.Extensions.CommandLineUtils.1.1.1\lib\net451\Microsoft.Extensions.CommandLineUtils.dll</HintPath>
+      <HintPath>..\packages\Microsoft.Extensions.CommandLineUtils.1.1.1\lib\net451\Microsoft.Extensions.CommandLineUtils.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-***REMOVED*** <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="RestSharp, Version=106.5.4.0, Culture=neutral, PublicKeyToken=598062e77f915f75, processorArchitecture=MSIL">
-***REMOVED*** <HintPath>..\packages\RestSharp.106.5.4\lib\net452\RestSharp.dll</HintPath>
+      <HintPath>..\packages\RestSharp.106.5.4\lib\net452\RestSharp.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -105,29 +105,29 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config">
-***REMOVED*** <SubType>Designer</SubType>
+      <SubType>Designer</SubType>
     </None>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.6.1">
-***REMOVED*** <Visible>False</Visible>
-***REMOVED*** <ProductName>Microsoft .NET Framework 4.6.1 %28x86 and x64%29</ProductName>
-***REMOVED*** <Install>true</Install>
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.6.1 %28x86 and x64%29</ProductName>
+      <Install>true</Install>
     </BootstrapperPackage>
     <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
-***REMOVED*** <Visible>False</Visible>
-***REMOVED*** <ProductName>.NET Framework 3.5 SP1</ProductName>
-***REMOVED*** <Install>false</Install>
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Migration.Common\Migration.Common.csproj">
-***REMOVED*** <Project>***REMOVED***3d3e0fd1-05fc-454b-828a-9004d3ddb296***REMOVED***</Project>
-***REMOVED*** <Name>Migration.Common</Name>
+      <Project>{3d3e0fd1-05fc-454b-828a-9004d3ddb296}</Project>
+      <Name>Migration.Common</Name>
     </ProjectReference>
     <ProjectReference Include="..\Migration.WIContract\Migration.WIContract.csproj">
-***REMOVED*** <Project>***REMOVED***19b3af60-8be6-47fc-9911-7829455b3557***REMOVED***</Project>
-***REMOVED*** <Name>Migration.WIContract</Name>
+      <Project>{19b3af60-8be6-47fc-9911-7829455b3557}</Project>
+      <Name>Migration.WIContract</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

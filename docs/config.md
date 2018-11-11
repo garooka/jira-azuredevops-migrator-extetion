@@ -47,7 +47,7 @@ The migration configuration file is defined in a json file with the properties d
 ## Example configuration
 
 ```json
-***REMOVED***
+{
   // the short name of the Jira project to migrate from
   "source-project": "SCRUM",
   // the name of the Azure DevOps project to migrate to
@@ -72,71 +72,71 @@ The migration configuration file is defined in a json file with the properties d
   "base-iteration-path": "Migrated",
   "ignore-failed-links": true,
   "process-template": "Scrum", 
-  "field-map": ***REMOVED***
+  "field-map": {
     "field": [
-***REMOVED*** ***REMOVED***
-***REMOVED***   "source": "summary",
-***REMOVED***   "target": "System.Title",
-***REMOVED***   "mapper": "MapTitle"
-***REMOVED*** ***REMOVED***,
-***REMOVED*** ***REMOVED***
-***REMOVED***   "source": "assignee",
-***REMOVED***   "target": "System.AssignedTo",
-***REMOVED***   "mapper": "MapUser"
-***REMOVED*** ***REMOVED***,
-***REMOVED*** ***REMOVED***
-***REMOVED***   "source": "description",
-***REMOVED***   "target": "System.Description"
-***REMOVED*** ***REMOVED***,
-***REMOVED*** ***REMOVED***
-***REMOVED***   "source": "priority",
-***REMOVED***   "target": "Microsoft.VSTS.Common.Priority",
-***REMOVED***   "mapper": "MapPriority"
-***REMOVED*** ***REMOVED***,
-***REMOVED*** ***REMOVED***
-***REMOVED***   "source": "customfield_10007",
-***REMOVED***   "target": "System.IterationPath",
-***REMOVED***   "mapper": "MapSprint"
-***REMOVED*** ***REMOVED***,
-***REMOVED*** ***REMOVED***
-***REMOVED***   "source": "labels",
-***REMOVED***   "target": "System.Tags",
-***REMOVED***   "mapper": "MapTags"
-***REMOVED*** ***REMOVED***,
-***REMOVED*** ***REMOVED***
-***REMOVED***   "source": "comment",
-***REMOVED***   "target": "System.History"
-***REMOVED*** ***REMOVED***,
-***REMOVED*** ***REMOVED***
-***REMOVED***   "source": "status",
-***REMOVED***   "target": "System.State",
-***REMOVED***   "not-for": "Task",
-***REMOVED***   "mapper": "MapStateBugAndPBI"
-***REMOVED*** ***REMOVED***,
-***REMOVED*** ***REMOVED***
-***REMOVED***   "source": "status",
-***REMOVED***   "target": "System.State",
-***REMOVED***   "for": "Task",
-***REMOVED***   "mapper": "MapStateTask"
-***REMOVED*** ***REMOVED***,
-***REMOVED*** ***REMOVED***
-***REMOVED***   "source": "customfield_10004",
-***REMOVED***   "target": "Microsoft.VSTS.Scheduling.Effort",
-***REMOVED***   "for": "Epic,Feature,Product Backlog Item,Bug",
-***REMOVED***   "type": "double"
-***REMOVED*** ***REMOVED***,
-***REMOVED*** ***REMOVED***
-***REMOVED***   "source": "remainingEstimate",
-***REMOVED***   "target": "Microsoft.VSTS.Scheduling.RemainingWork",
-***REMOVED***   "for": "Bug,Task",
-***REMOVED***   "type": "double"
-***REMOVED*** ***REMOVED***,
-***REMOVED*** ***REMOVED***
-***REMOVED***   "source": "description",
-***REMOVED***   "target": "Microsoft.VSTS.TCM.ReproSteps",
-***REMOVED***   "for": "Bug"
-***REMOVED*** ***REMOVED***
+      {
+        "source": "summary",
+        "target": "System.Title",
+        "mapper": "MapTitle"
+      },
+      {
+        "source": "assignee",
+        "target": "System.AssignedTo",
+        "mapper": "MapUser"
+      },
+      {
+        "source": "description",
+        "target": "System.Description"
+      },
+      {
+        "source": "priority",
+        "target": "Microsoft.VSTS.Common.Priority",
+        "mapper": "MapPriority"
+      },
+      {
+        "source": "customfield_10007",
+        "target": "System.IterationPath",
+        "mapper": "MapSprint"
+      },
+      {
+        "source": "labels",
+        "target": "System.Tags",
+        "mapper": "MapTags"
+      },
+      {
+        "source": "comment",
+        "target": "System.History"
+      },
+      {
+        "source": "status",
+        "target": "System.State",
+        "not-for": "Task",
+        "mapper": "MapStateBugAndPBI"
+      },
+      {
+        "source": "status",
+        "target": "System.State",
+        "for": "Task",
+        "mapper": "MapStateTask"
+      },
+      {
+        "source": "customfield_10004",
+        "target": "Microsoft.VSTS.Scheduling.Effort",
+        "for": "Epic,Feature,Product Backlog Item,Bug",
+        "type": "double"
+      },
+      {
+        "source": "remainingEstimate",
+        "target": "Microsoft.VSTS.Scheduling.RemainingWork",
+        "for": "Bug,Task",
+        "type": "double"
+      },
+      {
+        "source": "description",
+        "target": "Microsoft.VSTS.TCM.ReproSteps",
+        "for": "Bug"
+      }
     ]
-  ***REMOVED***
-***REMOVED***
+  }
+}
 ```

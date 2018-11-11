@@ -1,9 +1,9 @@
-﻿***REMOVED***
+﻿using System.Collections.Generic;
 
 namespace Migration.Common.Config
-***REMOVED***
+{
     public class ConfigMap
-    ***REMOVED***
-***REMOVED***   public List<Field> Fields ***REMOVED*** get; set; ***REMOVED***
-***REMOVED***
-***REMOVED***
+    {
+        public List<Field> Fields { get; set; }
+    }
+}

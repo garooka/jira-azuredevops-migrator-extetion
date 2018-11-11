@@ -1,15 +1,15 @@
-﻿***REMOVED***
+﻿using Common.Config;
 
 namespace Migration.Common.Config
-***REMOVED***
+{
     public interface IConfigReader
-    ***REMOVED***
-***REMOVED***   ConfigJson Deserialize();
+    {
+        ConfigJson Deserialize();
 
-***REMOVED***   void LoadFromFile(string filePath);
+        void LoadFromFile(string filePath);
 
-***REMOVED***   string GetJsonFromFile(string filePath);
+        string GetJsonFromFile(string filePath);
 
-***REMOVED***   ConfigJson DeserializeText(string input);
-***REMOVED***
-***REMOVED***
+        ConfigJson DeserializeText(string input);
+    }
+}

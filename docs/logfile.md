@@ -4,7 +4,7 @@
 
 The log file contains data on the following format:
 
-***REMOVED***   severity;timestamp;message
+        severity;timestamp;message
 
 ## Example file
 

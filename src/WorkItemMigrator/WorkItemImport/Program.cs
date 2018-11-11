@@ -1,35 +1,35 @@
 ﻿using Migration.Common;
-***REMOVED***
+using System;
 
 namespace WorkItemImport
-***REMOVED***
+{
     class Program
-    ***REMOVED***
-***REMOVED***   static void Main(string[] args)
-***REMOVED***   ***REMOVED***
-***REMOVED******REMOVED***  Logger.Log(LogLevel.Info, $"Work Item Importer v***REMOVED***VersionInfo.GetVersionInfo()***REMOVED***");
-***REMOVED******REMOVED***  Logger.Log(LogLevel.Info, VersionInfo.GetCopyrightInfo());
+    {
+        static void Main(string[] args)
+        {
+            Logger.Log(LogLevel.Info, $"Work Item Importer v{VersionInfo.GetVersionInfo()}");
+            Logger.Log(LogLevel.Info, VersionInfo.GetCopyrightInfo());
 
-***REMOVED******REMOVED***  try
-***REMOVED******REMOVED***  ***REMOVED***
-***REMOVED******REMOVED******REMOVED*** var cmd = new ImportCommandLine(args);
-***REMOVED******REMOVED******REMOVED*** cmd.Run();
-***REMOVED******REMOVED***  ***REMOVED***
-***REMOVED******REMOVED***  catch (Exception ex)
-***REMOVED******REMOVED***  ***REMOVED***
-***REMOVED******REMOVED******REMOVED*** Logger.Log(LogLevel.Error, "Closing application due to an unexpected exception: " + ex.Message);
-***REMOVED******REMOVED***  ***REMOVED***
-***REMOVED******REMOVED***  finally
-***REMOVED******REMOVED***  ***REMOVED***
-***REMOVED******REMOVED******REMOVED*** Logger.Summary();
-***REMOVED******REMOVED***  ***REMOVED***
+            try
+            {
+                var cmd = new ImportCommandLine(args);
+                cmd.Run();
+            }
+            catch (Exception ex)
+            {
+                Logger.Log(LogLevel.Error, "Closing application due to an unexpected exception: " + ex.Message);
+            }
+            finally
+            {
+                Logger.Summary();
+            }
 
 #if DEBUG
-***REMOVED******REMOVED***  Console.WriteLine("Press any key to continue...");
-***REMOVED******REMOVED***  Console.ReadKey();
+            Console.WriteLine("Press any key to continue...");
+            Console.ReadKey();
 #endif
-***REMOVED***   ***REMOVED***
+        }
 
 
-***REMOVED***
-***REMOVED***
+    }
+}

@@ -1,28 +1,28 @@
 ﻿using Newtonsoft.Json;
 
 namespace Migration.Common.Config
-***REMOVED***
+{
     public class Field
-    ***REMOVED***
-***REMOVED***   [JsonProperty("target", Required = Required.Always)]
-***REMOVED***   public string Target ***REMOVED*** get; set; ***REMOVED***
+    {
+        [JsonProperty("target", Required = Required.Always)]
+        public string Target { get; set; }
 
-***REMOVED***   [JsonProperty("source", Required = Required.Always)]
-***REMOVED***   public string Source ***REMOVED*** get; set; ***REMOVED***
+        [JsonProperty("source", Required = Required.Always)]
+        public string Source { get; set; }
 
-***REMOVED***   [JsonProperty("for")]
-***REMOVED***   public string For ***REMOVED*** get; set; ***REMOVED*** = "All";
+        [JsonProperty("for")]
+        public string For { get; set; } = "All";
 
-***REMOVED***   [JsonProperty("not-for")]
-***REMOVED***   public string NotFor ***REMOVED*** get; set; ***REMOVED***
+        [JsonProperty("not-for")]
+        public string NotFor { get; set; }
 
-***REMOVED***   [JsonProperty("type")]
-***REMOVED***   public string Type ***REMOVED*** get; set; ***REMOVED*** = "string";
-***REMOVED***   
-***REMOVED***   [JsonProperty("mapper")]
-***REMOVED***   public string Mapper ***REMOVED*** get; set; ***REMOVED***
+        [JsonProperty("type")]
+        public string Type { get; set; } = "string";
+        
+        [JsonProperty("mapper")]
+        public string Mapper { get; set; }
 
-***REMOVED***   [JsonProperty("process")]
-***REMOVED***   public string Process ***REMOVED*** get; set; ***REMOVED*** = "Common";
-***REMOVED***
-***REMOVED***
+        [JsonProperty("process")]
+        public string Process { get; set; } = "Common";
+    }
+}

@@ -1,7 +1,7 @@
-﻿***REMOVED***
-***REMOVED***
+﻿using System;
+using System.Collections.Generic;
 
 namespace Migration.Common
-***REMOVED***
-    public class FieldMapping<TRevision> : Dictionary<string, Func<TRevision, (bool, object)>> where TRevision : ISourceRevision ***REMOVED*** ***REMOVED*** 
-***REMOVED***
+{
+    public class FieldMapping<TRevision> : Dictionary<string, Func<TRevision, (bool, object)>> where TRevision : ISourceRevision { } 
+}

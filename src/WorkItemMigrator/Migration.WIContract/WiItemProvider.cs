@@ -1,46 +1,46 @@
 ﻿using Newtonsoft.Json;
-***REMOVED***
-***REMOVED***
+using System.Collections.Generic;
+using System.IO;
 
 namespace Migration.WIContract
-***REMOVED***
+{
     public class WiItemProvider
-    ***REMOVED***
-***REMOVED***   private readonly string _itemsDir;
+    {
+        private readonly string _itemsDir;
 
-***REMOVED***   public WiItemProvider(string itemsDir)
-***REMOVED***   ***REMOVED***
-***REMOVED******REMOVED***  _itemsDir = itemsDir;
-***REMOVED***   ***REMOVED***
+        public WiItemProvider(string itemsDir)
+        {
+            _itemsDir = itemsDir;
+        }
 
-***REMOVED***   public WiItem Load(string originId)
-***REMOVED***   ***REMOVED***
-***REMOVED******REMOVED***  var path = Path.Combine(_itemsDir, $"***REMOVED***originId***REMOVED***.json");
-***REMOVED******REMOVED***  return LoadFile(path);
-***REMOVED***   ***REMOVED***
+        public WiItem Load(string originId)
+        {
+            var path = Path.Combine(_itemsDir, $"{originId}.json");
+            return LoadFile(path);
+        }
 
-***REMOVED***   private WiItem LoadFile(string path)
-***REMOVED***   ***REMOVED***
-***REMOVED******REMOVED***  var serialized = File.ReadAllText(path);
-***REMOVED******REMOVED***  var deserialized = JsonConvert.DeserializeObject<WiItem>(serialized, new JsonSerializerSettings() ***REMOVED*** NullValueHandling = NullValueHandling.Ignore***REMOVED***);
+        private WiItem LoadFile(string path)
+        {
+            var serialized = File.ReadAllText(path);
+            var deserialized = JsonConvert.DeserializeObject<WiItem>(serialized, new JsonSerializerSettings() { NullValueHandling = NullValueHandling.Ignore});
 
-***REMOVED******REMOVED***  foreach (var rev in deserialized.Revisions)
-***REMOVED******REMOVED******REMOVED*** rev.ParentOriginId = deserialized.OriginId;
+            foreach (var rev in deserialized.Revisions)
+                rev.ParentOriginId = deserialized.OriginId;
 
-***REMOVED******REMOVED***  return deserialized;
-***REMOVED***   ***REMOVED***
+            return deserialized;
+        }
 
-***REMOVED***   public void Save(WiItem item)
-***REMOVED***   ***REMOVED***
-***REMOVED******REMOVED***  string path = Path.Combine(_itemsDir, $"***REMOVED***item.OriginId***REMOVED***.json");
-***REMOVED******REMOVED***  var serialized = JsonConvert.SerializeObject(item);
-***REMOVED******REMOVED***  File.WriteAllText(path, serialized);
-***REMOVED***   ***REMOVED***
+        public void Save(WiItem item)
+        {
+            string path = Path.Combine(_itemsDir, $"{item.OriginId}.json");
+            var serialized = JsonConvert.SerializeObject(item);
+            File.WriteAllText(path, serialized);
+        }
 
-***REMOVED***   public IEnumerable<WiItem> EnumerateAllItems()
-***REMOVED***   ***REMOVED***
-***REMOVED******REMOVED***  foreach (var filePath in Directory.EnumerateFiles(_itemsDir, "*.json"))
-***REMOVED******REMOVED******REMOVED*** yield return LoadFile(filePath);
-***REMOVED***   ***REMOVED***
-***REMOVED***
-***REMOVED***
+        public IEnumerable<WiItem> EnumerateAllItems()
+        {
+            foreach (var filePath in Directory.EnumerateFiles(_itemsDir, "*.json"))
+                yield return LoadFile(filePath);
+        }
+    }
+}

@@ -1,53 +1,53 @@
-﻿***REMOVED***
+﻿using Migration.Common.Config;
 using Newtonsoft.Json;
 
 namespace Common.Config
-***REMOVED***
+{
     public class ConfigJson
-    ***REMOVED***
-***REMOVED***   [JsonProperty(PropertyName = "source-project", Required = Required.Always)]
-***REMOVED***   public string SourceProject ***REMOVED*** get; set; ***REMOVED***
+    {
+        [JsonProperty(PropertyName = "source-project", Required = Required.Always)]
+        public string SourceProject { get; set; }
 
-***REMOVED***   [JsonProperty(PropertyName = "target-project", Required = Required.Always)]
-***REMOVED***   public string TargetProject ***REMOVED*** get; set; ***REMOVED***
+        [JsonProperty(PropertyName = "target-project", Required = Required.Always)]
+        public string TargetProject { get; set; }
 
-***REMOVED***   [JsonProperty(PropertyName = "query", Required = Required.Always)]
-***REMOVED***   public string Query ***REMOVED*** get; set; ***REMOVED***
+        [JsonProperty(PropertyName = "query", Required = Required.Always)]
+        public string Query { get; set; }
 
-***REMOVED***   [JsonProperty(PropertyName ="workspace", Required = Required.Always)]
-***REMOVED***   public string Workspace ***REMOVED*** get; set; ***REMOVED***
+        [JsonProperty(PropertyName ="workspace", Required = Required.Always)]
+        public string Workspace { get; set; }
 
-***REMOVED***   [JsonProperty(PropertyName = "epic-link-field", Required = Required.AllowNull)]
-***REMOVED***   public string EpicLinkField ***REMOVED*** get; set; ***REMOVED***
+        [JsonProperty(PropertyName = "epic-link-field", Required = Required.AllowNull)]
+        public string EpicLinkField { get; set; }
 
-***REMOVED***   [JsonProperty(PropertyName = "sprint-field", Required = Required.AllowNull)]
-***REMOVED***   public string SprintField ***REMOVED*** get; set; ***REMOVED***
+        [JsonProperty(PropertyName = "sprint-field", Required = Required.AllowNull)]
+        public string SprintField { get; set; }
 
-***REMOVED***   [JsonProperty(PropertyName = "batch-size", Required = Required.Always)]
-***REMOVED***   public int BatchSize ***REMOVED*** get; set; ***REMOVED***
+        [JsonProperty(PropertyName = "batch-size", Required = Required.Always)]
+        public int BatchSize { get; set; }
 
-***REMOVED***   [JsonProperty(PropertyName = "log-level", Required = Required.Always)]
-***REMOVED***   public string LogLevel ***REMOVED*** get; set; ***REMOVED***
+        [JsonProperty(PropertyName = "log-level", Required = Required.Always)]
+        public string LogLevel { get; set; }
 
-***REMOVED***   [JsonProperty(PropertyName = "attachment-folder", Required = Required.Always)]
-***REMOVED***   public string AttachmentsFolder ***REMOVED*** get; set; ***REMOVED***
+        [JsonProperty(PropertyName = "attachment-folder", Required = Required.Always)]
+        public string AttachmentsFolder { get; set; }
 
-***REMOVED***   [JsonProperty(PropertyName = "user-mapping-file", Required = Required.AllowNull)]
-***REMOVED***   public string UserMappingFile ***REMOVED*** get; set; ***REMOVED***
+        [JsonProperty(PropertyName = "user-mapping-file", Required = Required.AllowNull)]
+        public string UserMappingFile { get; set; }
 
-***REMOVED***   [JsonProperty(PropertyName = "base-area-path", Required = Required.AllowNull)]
-***REMOVED***   public string BaseAreaPath ***REMOVED*** get; set; ***REMOVED***
+        [JsonProperty(PropertyName = "base-area-path", Required = Required.AllowNull)]
+        public string BaseAreaPath { get; set; }
 
-***REMOVED***   [JsonProperty(PropertyName = "base-iteration-path", Required = Required.AllowNull)]
-***REMOVED***   public string BaseIterationPath ***REMOVED*** get; set; ***REMOVED***
+        [JsonProperty(PropertyName = "base-iteration-path", Required = Required.AllowNull)]
+        public string BaseIterationPath { get; set; }
 
-***REMOVED***   [JsonProperty(PropertyName = "ignore-failed-links", Required = Required.Always)]
-***REMOVED***   public bool IgnoreFailedLinks ***REMOVED*** get; set; ***REMOVED***
+        [JsonProperty(PropertyName = "ignore-failed-links", Required = Required.Always)]
+        public bool IgnoreFailedLinks { get; set; }
 
-***REMOVED***   [JsonProperty(PropertyName = "field-map", Required = Required.Always)]
-***REMOVED***   public ConfigMap FieldMap ***REMOVED*** get; set; ***REMOVED***
+        [JsonProperty(PropertyName = "field-map", Required = Required.Always)]
+        public ConfigMap FieldMap { get; set; }
 
-***REMOVED***   [JsonProperty(PropertyName = "process-template", Required = Required.Always)]
-***REMOVED***   public string ProcessTemplate ***REMOVED*** get; set; ***REMOVED***
-***REMOVED***
-***REMOVED***
+        [JsonProperty(PropertyName = "process-template", Required = Required.Always)]
+        public string ProcessTemplate { get; set; }
+    }
+}

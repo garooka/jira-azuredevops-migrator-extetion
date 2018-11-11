@@ -4,7 +4,7 @@
 
 The attachments journal file contains data on the following format:
 
-***REMOVED***   attachment;id
+        attachment;id
 
 ## Example file
 

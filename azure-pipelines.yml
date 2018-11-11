@@ -45,14 +45,14 @@ steps:
   inputs:
     SourceFolder: '$(system.defaultworkingdirectory)\src\WorkItemMigrator\JiraExport\bin\$(BuildConfiguration)'
     Contents: |
-***REMOVED***Atlassian.Jira.dll
-***REMOVED***jira-export.exe
-***REMOVED***jira-export.exe.config
-***REMOVED***Microsoft.Extensions.CommandLineUtils.dll
-***REMOVED***Migration.Common.dll
-***REMOVED***Migration.WIContract.dll
-***REMOVED***Newtonsoft.Json.dll
-***REMOVED***RestSharp.dll
+     Atlassian.Jira.dll
+     jira-export.exe
+     jira-export.exe.config
+     Microsoft.Extensions.CommandLineUtils.dll
+     Migration.Common.dll
+     Migration.WIContract.dll
+     Newtonsoft.Json.dll
+     RestSharp.dll
     TargetFolder: '$(build.artifactstagingdirectory)\WorkItemMigrator'
     flattenFolders: true
 
@@ -61,19 +61,19 @@ steps:
   inputs:
     SourceFolder: '$(system.defaultworkingdirectory)\src\WorkItemMigrator\WorkItemImport\bin\$(BuildConfiguration)'
     Contents: |
-***REMOVED***Microsoft.TeamFoundation.Client.dll
-***REMOVED***Microsoft.TeamFoundation.Common.dll
-***REMOVED***Microsoft.TeamFoundation.Core.WebApi.dll
-***REMOVED***Microsoft.TeamFoundation.WorkItemTracking.Client.DataStoreLoader.dll
-***REMOVED***Microsoft.TeamFoundation.WorkItemTracking.Client.dll
-***REMOVED***Microsoft.TeamFoundation.WorkItemTracking.Common.dll
-***REMOVED***Microsoft.TeamFoundation.WorkItemTracking.Proxy.dll
-***REMOVED***Microsoft.TeamFoundation.WorkItemTracking.WebApi.dll
-***REMOVED***Microsoft.VisualStudio.Services.Common.dll
-***REMOVED***Microsoft.VisualStudio.Services.WebApi.dll
-***REMOVED***System.Net.Http.Formatting.dll
-***REMOVED***wi-import.exe
-***REMOVED***wi-import.exe.config
+     Microsoft.TeamFoundation.Client.dll
+     Microsoft.TeamFoundation.Common.dll
+     Microsoft.TeamFoundation.Core.WebApi.dll
+     Microsoft.TeamFoundation.WorkItemTracking.Client.DataStoreLoader.dll
+     Microsoft.TeamFoundation.WorkItemTracking.Client.dll
+     Microsoft.TeamFoundation.WorkItemTracking.Common.dll
+     Microsoft.TeamFoundation.WorkItemTracking.Proxy.dll
+     Microsoft.TeamFoundation.WorkItemTracking.WebApi.dll
+     Microsoft.VisualStudio.Services.Common.dll
+     Microsoft.VisualStudio.Services.WebApi.dll
+     System.Net.Http.Formatting.dll
+     wi-import.exe
+     wi-import.exe.config
     TargetFolder: '$(build.artifactstagingdirectory)\WorkItemMigrator'
     flattenFolders: true
 

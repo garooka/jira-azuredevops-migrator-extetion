@@ -1,135 +1,135 @@
-﻿***REMOVED***
-***REMOVED***
-***REMOVED***
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
 
 namespace Migration.Common
-***REMOVED***
+{
     public enum LogLevel
-    ***REMOVED***
-***REMOVED***   Debug,
-***REMOVED***   Info,
-***REMOVED***   Warning,
-***REMOVED***   Error,
-***REMOVED***   Critical
-***REMOVED***
+    {
+        Debug,
+        Info,
+        Warning,
+        Error,
+        Critical
+    }
 
     public class Logger
-    ***REMOVED***
-***REMOVED***   private static string _logFilePath;
-***REMOVED***   private static LogLevel _logLevel;
-***REMOVED***   private static List<string> Errors = new List<string>();
-***REMOVED***   private static List<string> Warnings = new List<string>();
+    {
+        private static string _logFilePath;
+        private static LogLevel _logLevel;
+        private static List<string> Errors = new List<string>();
+        private static List<string> Warnings = new List<string>();
 
-***REMOVED***   public static void Init(string dirPath, LogLevel level)
-***REMOVED***   ***REMOVED***
-***REMOVED******REMOVED***  if(!Directory.Exists(dirPath))
-***REMOVED******REMOVED***  ***REMOVED***
-***REMOVED******REMOVED******REMOVED*** Directory.CreateDirectory(dirPath);
-***REMOVED******REMOVED***  ***REMOVED***
-***REMOVED******REMOVED***  _logFilePath = Path.Combine(dirPath, $"log.***REMOVED***Guid.NewGuid().ToString()***REMOVED***.txt");
-***REMOVED******REMOVED***  _logLevel = level;
-***REMOVED***   ***REMOVED***
+        public static void Init(string dirPath, LogLevel level)
+        {
+            if(!Directory.Exists(dirPath))
+            {
+                Directory.CreateDirectory(dirPath);
+            }
+            _logFilePath = Path.Combine(dirPath, $"log.{Guid.NewGuid().ToString()}.txt");
+            _logLevel = level;
+        }
 
-***REMOVED***   internal static void Init(MigrationContext instance)
-***REMOVED***   ***REMOVED***
-***REMOVED******REMOVED***  Init(instance.MigrationWorkspace, instance.LogLevel);
-***REMOVED***   ***REMOVED***
+        internal static void Init(MigrationContext instance)
+        {
+            Init(instance.MigrationWorkspace, instance.LogLevel);
+        }
 
-***REMOVED***   public static void Log(LogLevel level, string message)
-***REMOVED***   ***REMOVED***
-***REMOVED******REMOVED***  LogInternal(level, message);
+        public static void Log(LogLevel level, string message)
+        {
+            LogInternal(level, message);
 
-***REMOVED******REMOVED***  if (level == LogLevel.Critical)
-***REMOVED******REMOVED***  ***REMOVED***
-***REMOVED******REMOVED******REMOVED*** Errors.Add(message);
-***REMOVED******REMOVED******REMOVED*** throw new AbortMigrationException(message);
-***REMOVED******REMOVED***  ***REMOVED***
-***REMOVED******REMOVED***  else if (level == LogLevel.Error)
-***REMOVED******REMOVED***  ***REMOVED***
-***REMOVED******REMOVED******REMOVED*** Errors.Add(message);
-***REMOVED******REMOVED******REMOVED*** Console.Write("Do you want to continue (y/n)? ");
-***REMOVED******REMOVED******REMOVED*** var answer = Console.ReadKey();
-***REMOVED******REMOVED******REMOVED*** if (answer.Key == ConsoleKey.N)
-***REMOVED******REMOVED******REMOVED******REMOVED***throw new AbortMigrationException(message);
+            if (level == LogLevel.Critical)
+            {
+                Errors.Add(message);
+                throw new AbortMigrationException(message);
+            }
+            else if (level == LogLevel.Error)
+            {
+                Errors.Add(message);
+                Console.Write("Do you want to continue (y/n)? ");
+                var answer = Console.ReadKey();
+                if (answer.Key == ConsoleKey.N)
+                    throw new AbortMigrationException(message);
 
-***REMOVED******REMOVED***  ***REMOVED***
-***REMOVED******REMOVED***  else if (level == LogLevel.Warning)
-***REMOVED******REMOVED******REMOVED*** Warnings.Add(message);
-***REMOVED***   ***REMOVED***
+            }
+            else if (level == LogLevel.Warning)
+                Warnings.Add(message);
+        }
 
-***REMOVED***   private static void LogInternal(LogLevel level, string message)
-***REMOVED***   ***REMOVED***
-***REMOVED******REMOVED***  ToFile(level, message);
+        private static void LogInternal(LogLevel level, string message)
+        {
+            ToFile(level, message);
 
-***REMOVED******REMOVED***  if ((int)level >= (int)_logLevel)
-***REMOVED******REMOVED******REMOVED*** ToConsole(level, message);
-***REMOVED***   ***REMOVED***
+            if ((int)level >= (int)_logLevel)
+                ToConsole(level, message);
+        }
 
-***REMOVED***   public static void Log(Exception ex)
-***REMOVED***   ***REMOVED***
-***REMOVED******REMOVED***  Log(LogLevel.Error, $"[***REMOVED***ex.GetType().ToString()***REMOVED***] ***REMOVED***ex.Message***REMOVED***: ***REMOVED***Environment.NewLine + ex.StackTrace***REMOVED***");
-***REMOVED***   ***REMOVED***
+        public static void Log(Exception ex)
+        {
+            Log(LogLevel.Error, $"[{ex.GetType().ToString()}] {ex.Message}: {Environment.NewLine + ex.StackTrace}");
+        }
 
-***REMOVED***   private static void ToFile(LogLevel level, string message)
-***REMOVED***   ***REMOVED***
-***REMOVED******REMOVED***  string levelPrefix = GetPrefixFromLogLevel(level);
-***REMOVED******REMOVED***  string dateTime = DateTime.Now.ToString("HH:mm:ss");
+        private static void ToFile(LogLevel level, string message)
+        {
+            string levelPrefix = GetPrefixFromLogLevel(level);
+            string dateTime = DateTime.Now.ToString("HH:mm:ss");
 
-***REMOVED******REMOVED***  string log = $"[l:***REMOVED***levelPrefix***REMOVED***][d:***REMOVED***dateTime***REMOVED***] ***REMOVED***message***REMOVED******REMOVED***Environment.NewLine***REMOVED***";
-***REMOVED******REMOVED***  if (_logFilePath != null)
-***REMOVED******REMOVED******REMOVED*** File.AppendAllText(_logFilePath, log);
-***REMOVED***   ***REMOVED***
+            string log = $"[l:{levelPrefix}][d:{dateTime}] {message}{Environment.NewLine}";
+            if (_logFilePath != null)
+                File.AppendAllText(_logFilePath, log);
+        }
 
-***REMOVED***   private static void ToConsole(LogLevel level, string message)
-***REMOVED***   ***REMOVED***
-***REMOVED******REMOVED***  try
-***REMOVED******REMOVED***  ***REMOVED***
-***REMOVED******REMOVED******REMOVED*** if ((int)level >= (int)_logLevel)
-***REMOVED******REMOVED******REMOVED*** ***REMOVED***
-***REMOVED******REMOVED******REMOVED******REMOVED***Console.ForegroundColor = GetColorFromLogLevel(level);
-***REMOVED******REMOVED******REMOVED******REMOVED***Console.WriteLine(message);
-***REMOVED******REMOVED******REMOVED*** ***REMOVED***
-***REMOVED******REMOVED***  ***REMOVED***
-***REMOVED******REMOVED***  finally
-***REMOVED******REMOVED***  ***REMOVED***
-***REMOVED******REMOVED******REMOVED*** Console.ResetColor();
-***REMOVED******REMOVED***  ***REMOVED***
-***REMOVED***   ***REMOVED***
+        private static void ToConsole(LogLevel level, string message)
+        {
+            try
+            {
+                if ((int)level >= (int)_logLevel)
+                {
+                    Console.ForegroundColor = GetColorFromLogLevel(level);
+                    Console.WriteLine(message);
+                }
+            }
+            finally
+            {
+                Console.ResetColor();
+            }
+        }
 
-***REMOVED***   private static ConsoleColor GetColorFromLogLevel(LogLevel level)
-***REMOVED***   ***REMOVED***
-***REMOVED******REMOVED***  switch (level)
-***REMOVED******REMOVED***  ***REMOVED***
-***REMOVED******REMOVED******REMOVED*** case LogLevel.Debug: return ConsoleColor.Gray;
-***REMOVED******REMOVED******REMOVED*** case LogLevel.Info: return ConsoleColor.White;
-***REMOVED******REMOVED******REMOVED*** case LogLevel.Warning: return ConsoleColor.Yellow;
-***REMOVED******REMOVED******REMOVED*** case LogLevel.Error:
-***REMOVED******REMOVED******REMOVED*** case LogLevel.Critical: return ConsoleColor.Red;
-***REMOVED******REMOVED******REMOVED*** default: return ConsoleColor.Gray;
-***REMOVED******REMOVED***  ***REMOVED***
+        private static ConsoleColor GetColorFromLogLevel(LogLevel level)
+        {
+            switch (level)
+            {
+                case LogLevel.Debug: return ConsoleColor.Gray;
+                case LogLevel.Info: return ConsoleColor.White;
+                case LogLevel.Warning: return ConsoleColor.Yellow;
+                case LogLevel.Error:
+                case LogLevel.Critical: return ConsoleColor.Red;
+                default: return ConsoleColor.Gray;
+            }
 
-***REMOVED***   ***REMOVED***
+        }
 
-***REMOVED***   private static string GetPrefixFromLogLevel(LogLevel level)
-***REMOVED***   ***REMOVED***
-***REMOVED******REMOVED***  switch (level)
-***REMOVED******REMOVED***  ***REMOVED***
-***REMOVED******REMOVED******REMOVED*** case LogLevel.Debug: return "D";
-***REMOVED******REMOVED******REMOVED*** case LogLevel.Info: return "I";
-***REMOVED******REMOVED******REMOVED*** case LogLevel.Warning: return "W";
-***REMOVED******REMOVED******REMOVED*** case LogLevel.Error: return "E";
-***REMOVED******REMOVED******REMOVED*** case LogLevel.Critical: return "C";
-***REMOVED******REMOVED******REMOVED*** default: return "I";
-***REMOVED******REMOVED***  ***REMOVED***
-***REMOVED***   ***REMOVED***
+        private static string GetPrefixFromLogLevel(LogLevel level)
+        {
+            switch (level)
+            {
+                case LogLevel.Debug: return "D";
+                case LogLevel.Info: return "I";
+                case LogLevel.Warning: return "W";
+                case LogLevel.Error: return "E";
+                case LogLevel.Critical: return "C";
+                default: return "I";
+            }
+        }
 
-***REMOVED***   public static void Summary()
-***REMOVED***   ***REMOVED***
-***REMOVED******REMOVED***  foreach (var warning in Warnings)
-***REMOVED******REMOVED******REMOVED*** LogInternal(LogLevel.Warning, warning);
+        public static void Summary()
+        {
+            foreach (var warning in Warnings)
+                LogInternal(LogLevel.Warning, warning);
 
-***REMOVED******REMOVED***  foreach (var error in Errors)
-***REMOVED******REMOVED******REMOVED*** LogInternal(LogLevel.Error, error);
-***REMOVED***   ***REMOVED***
-***REMOVED***
-***REMOVED***
+            foreach (var error in Errors)
+                LogInternal(LogLevel.Error, error);
+        }
+    }
+}

@@ -1,11 +1,11 @@
 ﻿namespace Migration.Common
-***REMOVED***
+{
     public interface ISourceRevision
-    ***REMOVED***
-***REMOVED***   string OriginId ***REMOVED*** get; ***REMOVED***
-***REMOVED***   string Type ***REMOVED*** get; ***REMOVED***
+    {
+        string OriginId { get; }
+        string Type { get; }
 
-***REMOVED***   string GetFieldValue(string fieldName);
+        string GetFieldValue(string fieldName);
 
-***REMOVED***
-***REMOVED***
+    }
+}

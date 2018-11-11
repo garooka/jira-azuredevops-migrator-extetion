@@ -1,17 +1,17 @@
-﻿***REMOVED***
+﻿using System.Collections.Generic;
 
 namespace Migration.WIContract
-***REMOVED***
+{
     public class WiItem
-    ***REMOVED***
-***REMOVED***   public string Type ***REMOVED*** get; set; ***REMOVED***
-***REMOVED***   public string OriginId ***REMOVED*** get; set; ***REMOVED***
-***REMOVED***   public int WiId ***REMOVED*** get; set; ***REMOVED*** = -1;
-***REMOVED***   public List<WiRevision> Revisions ***REMOVED*** get; set; ***REMOVED***
+    {
+        public string Type { get; set; }
+        public string OriginId { get; set; }
+        public int WiId { get; set; } = -1;
+        public List<WiRevision> Revisions { get; set; }
 
-***REMOVED***   public override string ToString()
-***REMOVED***   ***REMOVED***
-***REMOVED******REMOVED***  return $"[***REMOVED***Type***REMOVED***]***REMOVED***OriginId***REMOVED***/***REMOVED***WiId***REMOVED***";
-***REMOVED***   ***REMOVED***
-***REMOVED***
-***REMOVED***
+        public override string ToString()
+        {
+            return $"[{Type}]{OriginId}/{WiId}";
+        }
+    }
+}

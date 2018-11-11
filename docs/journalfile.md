@@ -4,7 +4,7 @@
 
 The journal file contains data on the following format:
 
-***REMOVED***   Source item id;target item id;revision
+        Source item id;target item id;revision
 
 ## Example file
 
