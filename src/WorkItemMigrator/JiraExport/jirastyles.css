@@ -1,0 +1,58 @@
+﻿div ***REMOVED***
+    display: block;
+***REMOVED***
+
+table.confluenceTable ***REMOVED***
+    border-collapse: collapse;
+    margin: 5px 0 5px 2px;
+    width: auto;
+***REMOVED***
+
+table ***REMOVED***
+    display: table;
+    border-collapse: separate;
+    border-spacing: 2px;
+    border-color: grey;
+***REMOVED***
+
+tbody ***REMOVED***
+    display: table-row-group;
+    vertical-align: middle;
+    border-color: inherit;
+***REMOVED***
+
+tr ***REMOVED***
+    display: table-row;
+    vertical-align: inherit;
+    border-color: inherit;
+***REMOVED***
+
+th.confluenceTh ***REMOVED***
+    border: 1px solid #ccc;
+    background: #f5f5f5;
+    padding: 3px 4px;
+    text-align: center;
+***REMOVED***
+
+th ***REMOVED***
+    font-weight: bold;
+    text-align: -internal-center;
+***REMOVED***
+
+td, th ***REMOVED***
+    display: table-cell;
+    vertical-align: inherit;
+***REMOVED***
+
+    td.confluenceTd ***REMOVED***
+***REMOVED***   border: 1px solid #ccc;
+***REMOVED***   padding: 3px 4px;
+***REMOVED***
+
+dfn, cite ***REMOVED***
+    font-style: italic;
+***REMOVED***
+
+    cite:before ***REMOVED***
+***REMOVED***   content: "\2014 \2009";
+***REMOVED***
