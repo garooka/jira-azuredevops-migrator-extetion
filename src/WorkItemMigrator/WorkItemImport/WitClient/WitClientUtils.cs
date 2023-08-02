@@ -526,9 +526,18 @@ namespace WorkItemImport
 
                 object val = wi.Fields[key];
 
-                patchDocument.Add(
-                    JsonPatchDocUtils.CreateJsonFieldPatchOp(Operation.Add, key, val)
-                );
+                if (val == null || val.ToString() == "")
+                {
+                    patchDocument.Add(
+                        JsonPatchDocUtils.CreateJsonFieldPatchOp(Operation.Remove, key, null)
+                    );
+                }
+                else
+                {
+                    patchDocument.Add(
+                        JsonPatchDocUtils.CreateJsonFieldPatchOp(Operation.Replace, key, val)
+                    );
+                }
             }
 
             try
@@ -618,13 +627,22 @@ namespace WorkItemImport
             var wiState = wi.Fields[WiFieldReference.State].ToString() ?? string.Empty;
             var revState = rev.Fields.GetFieldValueOrDefault<string>(WiFieldReference.State) ?? string.Empty;
 
-            if (wiState.Equals("Done", StringComparison.InvariantCultureIgnoreCase) && revState.Equals("New", StringComparison.InvariantCultureIgnoreCase))
+            if (
+                    (
+                        wiState.Equals("Done", StringComparison.InvariantCultureIgnoreCase)
+                        || wiState.Equals("Closed", StringComparison.InvariantCultureIgnoreCase)
+                    )
+                    && revState.Equals("New", StringComparison.InvariantCultureIgnoreCase)
+                )
             {
                 rev.Fields.Add(new WiField() { ReferenceName = WiFieldReference.ClosedDate, Value = null });
                 rev.Fields.Add(new WiField() { ReferenceName = WiFieldReference.ClosedBy, Value = null });
             }
 
-            if (revState.Equals("Done", StringComparison.InvariantCultureIgnoreCase))
+            if (
+                revState.Equals("Done", StringComparison.InvariantCultureIgnoreCase)
+                || revState.Equals("Closed", StringComparison.InvariantCultureIgnoreCase)
+            )
             {
                 if (!rev.Fields.HasAnyByRefName(WiFieldReference.ClosedDate))
                     rev.Fields.Add(new WiField() { ReferenceName = WiFieldReference.ClosedDate, Value = rev.Time });
