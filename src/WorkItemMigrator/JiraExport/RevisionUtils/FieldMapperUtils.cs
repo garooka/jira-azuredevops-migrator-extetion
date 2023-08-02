@@ -8,8 +8,15 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Reflection;
 using System.Text.RegularExpressions;
+using NCalc.Domain;
+using NCalc;
+using System.Xml.Linq;
+using Antlr4.Runtime.Atn;
+using Atlassian.Jira;
+using PanoramicData.NCalcExtensions;
 
 namespace JiraExport
 {
@@ -128,7 +135,185 @@ namespace JiraExport
             return (true, value);
         }
 
+/*        class ParameterExtractionVisitor : LogicalExpressionVisitor
+        {
+            //public HashSet<string> Parameters = new HashSet<string>();
+            public List<string> Parameters = new List<string>();
 
+            public override void Visit(NCalc.Domain.Identifier function)
+            {
+                //Parameter - add to list
+                Parameters.Add(function.Name);
+            }
+
+            public override void Visit(NCalc.Domain.UnaryExpression expression)
+            {
+                expression.Expression.Accept(this);
+            }
+
+            public override void Visit(NCalc.Domain.BinaryExpression expression)
+            {
+                //Visit left and right
+                expression.LeftExpression.Accept(this);
+                expression.RightExpression.Accept(this);
+            }
+
+            public override void Visit(NCalc.Domain.TernaryExpression expression)
+            {
+                //Visit left, right and middle
+                expression.LeftExpression.Accept(this);
+                expression.RightExpression.Accept(this);
+                expression.MiddleExpression.Accept(this);
+            }
+
+            public override void Visit(Function function)
+            {
+                foreach (var expression in function.Expressions)
+                {
+                    expression.Accept(this);
+                }
+            }
+
+            public override void Visit(LogicalExpression expression)
+            {
+
+            }
+
+            public override void Visit(ValueExpression expression)
+            {
+
+            }
+        }
+*/
+
+        /*
+         * @date 21.07.2023
+         */
+
+        public static object MapArrayNew(List<object> field)
+        {
+            if (field == null)
+                throw new ArgumentNullException(nameof(field));
+
+            if (!field.Any())
+                return null;
+            else
+                return string.Join(";", field);
+        }
+        public static (bool, object) MapExpression(JiraRevision r, Field anItem)
+        {
+            Dictionary<string, object> someFields = r.Fields;
+
+            try
+            {
+                // Replace placeholders with values from someFields  
+                string expressionString = anItem.Source;
+
+                // Evaluate expression  
+                var engine = new ExtendedExpression(expressionString);
+
+                List<string> variables = new List<string>();
+                Regex regex = new Regex(@"\[(\w+)\]");
+                MatchCollection matches = regex.Matches(expressionString);
+
+                bool includeResult = false;
+
+                foreach (Match match in matches)
+                {
+                    string variableName = match.Groups[1].Value;
+                    if (!variables.Contains(variableName))
+                    {
+                        variables.Add(variableName);
+                    }
+                }
+
+                foreach (var aParam in variables) 
+                {
+                    if (someFields.TryGetValue(aParam.ToLower(), out object value))
+                        {
+                        Logger.Log(LogLevel.Debug, $"Substituting expression ('{expressionString}') parameters with JIRA issue attribute field '{aParam}', with value '{value}'.");
+
+                        //TODO custom field someFields[aParam]
+                        engine.Parameters[aParam] = value; // <= could not determine the required type of field, when its not there (value == null) ? string.Empty : value;
+
+                        includeResult = true;
+                    }
+                    else
+                    {
+                        Logger.Log(LogLevel.Debug, $"Missing JIRA issue attribute value for field '{aParam}'.");
+
+                        engine.Parameters[aParam] = string.Empty;
+                    }
+                }
+
+                engine.EvaluateFunction += delegate (string name, FunctionArgs args)
+                {
+                    if (name == "MapTags")
+                    {
+                        object aParamValue = args.Parameters[0].Evaluate();
+
+                        string someLabels = (aParamValue == null ? string.Empty : aParamValue.ToString());
+                        args.Result = MapTags(someLabels);
+
+                    }
+                    else if (name == "MapArray")
+                    {
+                        object aParamValue = args.Parameters[0].Evaluate();
+
+                        string someArrayString = (aParamValue == null ? string.Empty : aParamValue.ToString());
+
+                        args.Result = MapArray(someArrayString);
+                    }
+                    else if (name == "MapArrayNew")
+                    {
+                        //when array is empty it returns string.Empty
+                        object aParamValue = args.Parameters[0].Evaluate();
+
+                        List<object> someArray =(List<object>)(aParamValue == null || aParamValue == string.Empty ? new List<object>() : aParamValue);
+
+                        args.Result = MapArrayNew(someArray);
+                    }
+                    else if (name == "MapTitle")
+                    {
+                        args.Result = MapTitle(r);
+                        includeResult = true;
+                    }
+                    else if (name == "MapTitleWithoutKey")
+                    {
+                        args.Result = MapTitleWithoutKey(r);
+                        includeResult = true;
+                    }
+                    else if (name == "MapSprint")
+                    {
+                        string someString = args.Parameters[0].Evaluate().ToString();
+                        args.Result = MapSprint(someString);
+                    }
+                    else if (name == "MapRemainingWork")
+                    {
+                        string someString = args.Parameters[0].Evaluate().ToString();
+                        args.Result = MapRemainingWork(someString);
+                    }
+                   /* TODO: else if (name == "MapRendered")
+                    {
+                        string someString = args.Parameters[0].Evaluate().ToString();
+
+                        args.Result = MapRenderedValue(r, ?, true,
+                            jiraProvider.GetCustomId(?), config);
+
+                    }*/
+                };
+
+                var result = engine.Evaluate();
+                
+                // Convert result to string and return  
+                return (includeResult, result.ToString());
+            }
+            catch (Exception ex)
+            {
+                // Return false and null if something goes wrong  
+                return (false, null);
+            }
+        }
 
         public static object MapTags(string labels)
         {

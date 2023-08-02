@@ -86,6 +86,10 @@ namespace JiraExport
                     {
                         switch (item.Mapper)
                         {
+                            case "MapExpression":
+                                value = r => FieldMapperUtils.MapExpression(r, item);
+                                break;
+
                             case "MapTitle":
                                 value = r => FieldMapperUtils.MapTitle(r);
                                 break;
