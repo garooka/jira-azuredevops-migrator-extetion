@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Atlassian.Jira;
 using Atlassian.Jira.Remote;
 using Migration.Common;
+using Migration.Common.Config;
 using Migration.Common.Log;
 
 using Newtonsoft.Json.Linq;
@@ -450,13 +451,73 @@ namespace JiraExport
                         }
                     }
                 }
+
+                //TODO
+                Dictionary<string, object>  outDict = ExtendedExtractFields(prop, type == null);
+                fields = fields.Concat(outDict).ToDictionary(x => x.Key, x => x.Value);
             }
 
             fields["key"] = key;
             fields["issuekey"] = key;
-
             return fields;
         }
+
+
+        private static List<string> interestingKeys = new List<string>()
+        {
+            "name",
+            "description",
+            "key",
+            "releaseDate",
+            "released"
+        };
+
+
+        private static Dictionary<string, object> ExtendedExtractFields(JProperty aProperty, bool processSimpletype)
+        {
+            var result = new Dictionary<string, object>();
+
+            if (processSimpletype)
+            {
+                var keyPath = $"{aProperty.Name}";
+
+                var anOutList = ExtractFieldValues(aProperty, keyPath);
+
+                if (anOutList.Any())
+                {
+                    result[keyPath.ToLower()] = anOutList.ToList().Count == 1 ? anOutList.First() : anOutList.ToList();
+                }
+            }
+
+            foreach (var interestingKey in interestingKeys)
+            {
+                var keyPath = $"{aProperty.Name}_{interestingKey}";                   
+
+                var anOutList = ExtractFieldValues(aProperty, interestingKey);
+
+                if (anOutList.Any())
+                {
+                    result[keyPath.ToLower()] = anOutList.ToList().Count == 1 ? anOutList.First() : anOutList.ToList();
+                }
+            }
+
+            return result;
+        }
+
+        private static IEnumerable<object> ExtractFieldValues(JProperty aProperty, string aFieldKey)
+        {
+            //var values = aProperty.DescendantsAndSelf()
+            var values = aProperty.Children()
+                .Where(jt => jt.Type == JTokenType.Object && jt[aFieldKey] != null)
+                .Select(jt => jt[aFieldKey].ToObject<object>());
+
+            var valuesArray = aProperty.Children()
+                .Where(jt => jt.Type == JTokenType.Array).Children()
+                .Where(jt => jt.Type == JTokenType.Object && jt[aFieldKey] != null)
+                .Select(jt => jt[aFieldKey].ToObject<object>());
+
+            return values.Concat(valuesArray);
+        } 
         private static string GetAuthor(Dictionary<string, object> fields)
         {
             var reporter = fields.TryGetValue("reporter", out object rep) ? (string)rep : null;
