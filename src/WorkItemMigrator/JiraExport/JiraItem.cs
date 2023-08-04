@@ -138,15 +138,10 @@ namespace JiraExport
 
         private static void HandleFieldChange(JiraChangeItem item, IJiraProvider jiraProvider, Dictionary<string, object> fieldChanges, Dictionary<string, object> fields)
         {
-            var (fieldref, from, to) = TransformFieldChange(item, jiraProvider);
+            var (fieldref, from, to) = TransformFieldChange(item, jiraProvider, fields);
 
             fieldChanges[fieldref] = to;
 
-            // undo field change
-            if (string.IsNullOrEmpty(from))
-                fields.Remove(fieldref);
-            else
-                fields[fieldref] = from;
         }
 
         private static void HandleLinkChange(JiraChangeItem item, string issueKey, IJiraProvider jiraProvider, List<RevisionAction<JiraLink>> linkChanges, List<JiraLink> links)
@@ -271,12 +266,19 @@ namespace JiraExport
             };
         }
 
-        private static (string, string, string) TransformFieldChange(JiraChangeItem item, IJiraProvider jira)
+        private static (string, object, object) TransformFieldChange(JiraChangeItem item, IJiraProvider jira, Dictionary<string, object> fields)
         {
             var objectFields = new HashSet<string>() { "assignee", "creator", "reporter" };
-            string from, to = string.Empty;
+            object from, to;
+            //TODO cleanup string from, to = string.Empty;
 
             string fieldId = item.FieldId ?? GetCustomFieldId(item.Field, jira) ?? item.Field;
+
+            string aKey = fieldId; // whyyyy the component comes from change log with capital C!!!
+
+            aKey = fields.ContainsKey(aKey) ? aKey : aKey.ToLower();
+            
+            fields.TryGetValue(aKey, out object aFieldValue);
 
             if (objectFields.Contains(fieldId))
             {
@@ -287,6 +289,32 @@ namespace JiraExport
             {
                 from = item.FromString;
                 to = item.ToString;
+            }
+
+            // undo field change
+            if (aFieldValue != null && aFieldValue is List<string>)
+            {
+                List<string> aList = new List<string>((List<string>)aFieldValue);
+
+                if(!string.IsNullOrEmpty(to as string ?? "")) aList.Remove(to.ToString());
+
+                if (string.IsNullOrEmpty(from as string ?? "")) aList.Add(from.ToString());
+
+                if (!aList.Any())
+                {
+                    fields.Remove(fieldId);
+                } else
+                {
+                    fields[fieldId] = aList;
+                }
+            }
+            else if (string.IsNullOrEmpty(from as string ?? ""))
+            {
+                fields.Remove(fieldId);
+            }
+            else
+            {
+                fields[fieldId] = from;
             }
 
             return (fieldId, from, to);
@@ -434,7 +462,7 @@ namespace JiraExport
             foreach (var prop in remoteFields.Properties())
             {
                 var type = prop.Value.Type;
-                var name = prop.Name.ToLower();
+                var name = prop.Name; // Remove ToLower() method, because field name is not matched by the Revision processing 
                 object value = null;
 
                 if (_fieldExtractionMapping.TryGetValue(name, out Func<JToken, object> mapping))
@@ -451,9 +479,26 @@ namespace JiraExport
                 }
                 else if (type == JTokenType.Array && prop.Value.Any())
                 {
+                    /*
+                     * Changed from string to List, because by Revision processing there is now way to correctly apply single item removal from array/List
+                     */
+                    List<string> outValue = prop.Value.Select(st => st.ExValue<string>("$.name")).ToList();
+                    
+                    if(outValue == null || !outValue.Any() || outValue.All(string.IsNullOrEmpty)) {
+
+                        outValue = prop.Value.Select(st => st.ExValue<string>("$.value")).ToList();
+                    }
+
+                    value = outValue == null || !outValue.Any() || outValue.All(string.IsNullOrEmpty) ? new List<string>() : outValue;
+
+                    /*
+                     * TODO cleanup 
+                     
                     value = string.Join(";", prop.Value.Select(st => st.ExValue<string>("$.name")).ToList());
+
                     if (Regex.Match((string)value, "^[;]+$", RegexOptions.None, TimeSpan.FromMilliseconds(100)).Success || (string)value == "")
                         value = string.Join(";", prop.Value.Select(st => st.ExValue<string>("$.value")).ToList());
+                    */
                 }
                 else if (type == Newtonsoft.Json.Linq.JTokenType.Object && prop.Value["value"] != null)
                 {
@@ -504,13 +549,14 @@ namespace JiraExport
 
             if (processSimpletype)
             {
+                // keyPath - removed ToLower() method because of the Revision procesing errot
                 var keyPath = $"{aProperty.Name}";
 
                 var anOutList = ExtractFieldValues(aProperty, keyPath);
 
                 if (anOutList.Any())
                 {
-                    result[keyPath.ToLower()] = anOutList.ToList().Count == 1 ? anOutList.First() : anOutList.ToList();
+                    result[keyPath] = anOutList.ToList().Count == 1 ? anOutList.First() : anOutList.ToList();
                 }
             }
 
@@ -522,7 +568,7 @@ namespace JiraExport
 
                 if (anOutList.Any())
                 {
-                    result[keyPath.ToLower()] = anOutList.ToList().Count == 1 ? anOutList.First() : anOutList.ToList();
+                    result[keyPath] = anOutList.ToList().Count == 1 ? anOutList.First() : anOutList.ToList();
                 }
             }
 
