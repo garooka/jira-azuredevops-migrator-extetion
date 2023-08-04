@@ -286,7 +286,8 @@ namespace JiraExport
                     else if (name == "MapSprint")
                     {
                         string someString = args.Parameters[0].Evaluate().ToString();
-                        args.Result = MapSprint(someString);
+                        var aSprint = MapSprint(someString);
+                        args.Result = aSprint != null ? aSprint.ToString() : "";
                     }
                     else if (name == "MapRemainingWork")
                     {
