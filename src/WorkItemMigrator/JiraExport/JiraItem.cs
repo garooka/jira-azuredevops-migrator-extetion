@@ -78,6 +78,13 @@ namespace JiraExport
                 List<RevisionAction<JiraAttachment>> attachmentChanges = new List<RevisionAction<JiraAttachment>>();
                 Dictionary<string, object> fieldChanges = new Dictionary<string, object>(StringComparer.InvariantCultureIgnoreCase);
 
+                //fieldChanges dictionary should have the same keys as fields, because the mapping could use also other attributes as those contained in JiraChangeItem
+                foreach (var field in fields)
+                {
+                    fieldChanges[field.Key] = field.Value;
+                }
+
+
                 var items = change.SelectTokens("$.items[*]")?.Cast<JObject>()?.Select(i => new JiraChangeItem(i));
                 foreach (var item in items)
                 {
@@ -125,6 +132,7 @@ namespace JiraExport
             return listOfRevisions;
         }
 
+
         private static void HandleCustomFieldChange(JiraChangeItem item, string customFieldName, Dictionary<string, object> fieldChanges, Dictionary<string, object> fields)
         {
             fieldChanges[customFieldName] = item.ToString;
@@ -138,10 +146,50 @@ namespace JiraExport
 
         private static void HandleFieldChange(JiraChangeItem item, IJiraProvider jiraProvider, Dictionary<string, object> fieldChanges, Dictionary<string, object> fields)
         {
-            var (fieldref, from, to) = TransformFieldChange(item, jiraProvider, fields);
+            //var (fieldref, from, to) = TransformFieldChange(item, jiraProvider, fields);
 
-            fieldChanges[fieldref] = to;
+            var objectFields = new HashSet<string>() { "assignee", "creator", "reporter" };
+            object from, to;
+            
+            string fieldref = string.IsNullOrEmpty(item.Field) ? GetCustomFieldId(item.Field, jiraProvider) : GetFieldName(item.Field, jiraProvider);
 
+            fields.TryGetValue(fieldref, out object aFieldValueFrom);
+            fieldChanges.TryGetValue(fieldref, out object aFieldValueTo);
+
+            if (objectFields.Contains(fieldref))
+            {
+                from = item.From;
+                to = item.To;
+            }
+            else
+            {
+                from = item.FromString;
+                to = item.ToString;
+            }
+
+            // undo field change
+            if (aFieldValueFrom != null && aFieldValueFrom is List<string> &&
+                aFieldValueTo != null && aFieldValueTo is List<string>)
+            {
+                List<string> aFromList = (List<string>)aFieldValueFrom;
+                List<string> aToList = (List<string>)aFieldValueTo;
+
+                //never remove the empty List<string>, because it won't be possible to determine the type: fields.Remove(fieldref);
+
+                if (!string.IsNullOrEmpty(from as string ?? "")) aFromList.Add(from.ToString());
+
+                if (!string.IsNullOrEmpty(to as string ?? "")) aToList.Add(to.ToString());
+            }
+            else if (string.IsNullOrEmpty(from as string ?? ""))
+            {
+                fields.Remove(fieldref);
+                fieldChanges[fieldref] = to;
+            }
+            else
+            {
+                fields[fieldref] = from;
+                fieldChanges[fieldref] = to;
+            }            
         }
 
         private static void HandleLinkChange(JiraChangeItem item, string issueKey, IJiraProvider jiraProvider, List<RevisionAction<JiraLink>> linkChanges, List<JiraLink> links)
@@ -266,6 +314,9 @@ namespace JiraExport
             };
         }
 
+        /*
+         * Obsolete
+         */
         private static (string, object, object) TransformFieldChange(JiraChangeItem item, IJiraProvider jira, Dictionary<string, object> fields)
         {
             var objectFields = new HashSet<string>() { "assignee", "creator", "reporter" };
