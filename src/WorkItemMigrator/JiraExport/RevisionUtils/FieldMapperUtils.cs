@@ -135,71 +135,9 @@ namespace JiraExport
             return (true, value);
         }
 
-/*        class ParameterExtractionVisitor : LogicalExpressionVisitor
-        {
-            //public HashSet<string> Parameters = new HashSet<string>();
-            public List<string> Parameters = new List<string>();
-
-            public override void Visit(NCalc.Domain.Identifier function)
-            {
-                //Parameter - add to list
-                Parameters.Add(function.Name);
-            }
-
-            public override void Visit(NCalc.Domain.UnaryExpression expression)
-            {
-                expression.Expression.Accept(this);
-            }
-
-            public override void Visit(NCalc.Domain.BinaryExpression expression)
-            {
-                //Visit left and right
-                expression.LeftExpression.Accept(this);
-                expression.RightExpression.Accept(this);
-            }
-
-            public override void Visit(NCalc.Domain.TernaryExpression expression)
-            {
-                //Visit left, right and middle
-                expression.LeftExpression.Accept(this);
-                expression.RightExpression.Accept(this);
-                expression.MiddleExpression.Accept(this);
-            }
-
-            public override void Visit(Function function)
-            {
-                foreach (var expression in function.Expressions)
-                {
-                    expression.Accept(this);
-                }
-            }
-
-            public override void Visit(LogicalExpression expression)
-            {
-
-            }
-
-            public override void Visit(ValueExpression expression)
-            {
-
-            }
-        }
-*/
-
         /*
          * @date 21.07.2023
          */
-
-        public static object MapArrayNew(List<object> field)
-        {
-            if (field == null)
-                throw new ArgumentNullException(nameof(field));
-
-            if (!field.Any())
-                return null;
-            else
-                return string.Join(";", field);
-        }
         public static (bool, object) MapExpression(JiraRevision r, Field anItem)
         {
             Dictionary<string, object> someFields = r.Fields;
@@ -260,18 +198,12 @@ namespace JiraExport
                     {
                         object aParamValue = args.Parameters[0].Evaluate();
 
-                        string someArrayString = (aParamValue == null ? string.Empty : aParamValue.ToString());
+                        List<string> someArrayString = (aParamValue != null && aParamValue is List<string> ? (List<string>) aParamValue : null);
 
-                        args.Result = MapArray(someArrayString);
-                    }
-                    else if (name == "MapArrayNew")
-                    {
-                        //when array is empty it returns string.Empty
-                        object aParamValue = args.Parameters[0].Evaluate();
+                        var aResult = MapArray(someArrayString);
 
-                        List<object> someArray =(List<object>)(aParamValue == null || aParamValue == string.Empty ? new List<object>() : aParamValue);
-
-                        args.Result = MapArrayNew(someArray);
+                        args.Result = aResult.Item2;
+                        includeResult = includeResult || aResult.Item1;
                     }
                     else if (name == "MapTitle")
                     {
@@ -331,19 +263,23 @@ namespace JiraExport
                 return string.Join(";", tags);
         }
 
-        public static object MapArray(string field)
+        public static (bool, object) MapArray(JiraRevision r, string aFieldName)
         {
-            if (field == null)
-                throw new ArgumentNullException(nameof(field));
+            r.Fields.TryGetValue(aFieldName, out object aValue);
 
-            if (string.IsNullOrWhiteSpace(field))
-                return null;
+            if (aFieldName == null || (aValue != null && aValue is List<string> == false))
+                throw new ArgumentNullException(nameof(aFieldName));
 
-            var values = field.Split(',');
-            if (!values.Any())
-                return null;
+            List<string> field = (List<string>)aValue;
+
+            return MapArray(field);
+        }
+        public static (bool, object) MapArray(List<string> field)
+        {            
+            if (field == null || !field.Any())
+                return (false, string.Empty);
             else
-                return string.Join(";", values);
+                return (true, string.Join(";", field));
         }
 
         public static object MapSprint(string iterationPathsString)

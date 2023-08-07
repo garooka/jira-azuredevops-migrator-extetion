@@ -117,7 +117,7 @@ namespace JiraExport
                                 value = IfChanged<string>(item.Source, isCustomField, FieldMapperUtils.MapTags);
                                 break;
                             case "MapArray":
-                                value = IfChanged<string>(item.Source, isCustomField, FieldMapperUtils.MapArray);
+                                value = r => FieldMapperUtils.MapArray(r, item.Source);
                                 break;
                             case "MapRemainingWork":
                                 value = IfChanged<string>(item.Source, isCustomField, FieldMapperUtils.MapRemainingWork);

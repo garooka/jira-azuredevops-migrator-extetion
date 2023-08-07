@@ -38,7 +38,7 @@ namespace JiraExport
             string issueKey = jiraItem.Key;
             var remoteIssue = jiraItem.RemoteIssue;
             Dictionary<string, object> fieldsTemp = ExtractFields(issueKey, remoteIssue, jiraProvider);
-            
+
             // Add CustomFieldName fields, copy over all non-custom fields.
             // These get removed as we loop over the changeLog, so we're left with the original Jira values by the time we reach firstRevision.
             Dictionary<string, object> fields = new Dictionary<string, object>(StringComparer.InvariantCultureIgnoreCase);
@@ -272,13 +272,9 @@ namespace JiraExport
             object from, to;
             //TODO cleanup string from, to = string.Empty;
 
-            string fieldId = item.FieldId ?? GetCustomFieldId(item.Field, jira) ?? item.Field;
+            string fieldId = string.IsNullOrEmpty(item.Field) ? GetCustomFieldId(item.Field, jira) : GetFieldName(item.Field, jira);
 
-            string aKey = fieldId; // whyyyy the component comes from change log with capital C!!!
-
-            aKey = fields.ContainsKey(aKey) ? aKey : aKey.ToLower();
-            
-            fields.TryGetValue(aKey, out object aFieldValue);
+            fields.TryGetValue(fieldId, out object aFieldValue);
 
             if (objectFields.Contains(fieldId))
             {
@@ -296,7 +292,7 @@ namespace JiraExport
             {
                 List<string> aList = new List<string>((List<string>)aFieldValue);
 
-                if(!string.IsNullOrEmpty(to as string ?? "")) aList.Remove(to.ToString());
+                if (!string.IsNullOrEmpty(to as string ?? "")) aList.Remove(to.ToString());
 
                 if (string.IsNullOrEmpty(from as string ?? "")) aList.Add(from.ToString());
 
@@ -338,6 +334,18 @@ namespace JiraExport
 
         }
 
+        protected static string GetFieldName(string fieldId, IJiraProvider jira)
+        {
+            var objectFields = new Dictionary<string, string>() {
+                { "components", "Component" },
+                { "fixVersions", "Fix Version" }
+            };
+
+            objectFields.TryGetValue(fieldId, out string aFieldName);
+            
+            return string.IsNullOrEmpty(aFieldName) ? fieldId : aFieldName;
+        }
+        
         private static void UndoLinkChange(RevisionAction<JiraLink> linkChange, List<JiraLink> links)
         {
             if (linkChange.ChangeType == RevisionChangeType.Removed)
@@ -490,15 +498,6 @@ namespace JiraExport
                     }
 
                     value = outValue == null || !outValue.Any() || outValue.All(string.IsNullOrEmpty) ? new List<string>() : outValue;
-
-                    /*
-                     * TODO cleanup 
-                     
-                    value = string.Join(";", prop.Value.Select(st => st.ExValue<string>("$.name")).ToList());
-
-                    if (Regex.Match((string)value, "^[;]+$", RegexOptions.None, TimeSpan.FromMilliseconds(100)).Success || (string)value == "")
-                        value = string.Join(";", prop.Value.Select(st => st.ExValue<string>("$.value")).ToList());
-                    */
                 }
                 else if (type == Newtonsoft.Json.Linq.JTokenType.Object && prop.Value["value"] != null)
                 {
