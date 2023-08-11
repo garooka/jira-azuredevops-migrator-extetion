@@ -140,8 +140,8 @@ namespace JiraExport
          */
         public static (bool, object) MapExpression(JiraRevision r, Field anItem)
         {
-            Dictionary<string, object> someFields = r.Fields;
-
+            //Dictionary<string, object> someFields = r.Fields;
+            
             try
             {
                 // Replace placeholders with values from someFields  
@@ -167,7 +167,10 @@ namespace JiraExport
 
                 foreach (var aParam in variables) 
                 {
-                    if (someFields.TryGetValue(aParam.ToLower(), out object value))
+                    var value = r.GetFieldValue(aParam);
+
+                    //if (someFields.TryGetValue(aParam.ToLower(), out object value))
+                    if(value != null)
                         {
                         Logger.Log(LogLevel.Debug, $"Substituting expression ('{expressionString}') parameters with JIRA issue attribute field '{aParam}', with value '{value}'.");
 

@@ -63,13 +63,13 @@ namespace JiraExport
                 {
                     var prevLinkValue = r.ParentItem.Revisions[r.Index - 1].GetFieldValue(field);
                     // if previous value is not null, add removal of previous link
-                    if (!string.IsNullOrWhiteSpace(prevLinkValue))
-                    {
+                    if (!string.IsNullOrWhiteSpace(prevLinkValue as string ?? ""))
+                    {                        
                         var removeLink = new WiLink()
                         {
                             Change = ReferenceChangeType.Removed,
                             SourceOriginId = r.ParentItem.Key,
-                            TargetOriginId = prevLinkValue,
+                            TargetOriginId = prevLinkValue.ToString(),
                             WiType = linkType
                         };
 

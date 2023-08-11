@@ -78,11 +78,6 @@ namespace JiraExport
                 List<RevisionAction<JiraAttachment>> attachmentChanges = new List<RevisionAction<JiraAttachment>>();
                 Dictionary<string, object> fieldChanges = new Dictionary<string, object>(StringComparer.InvariantCultureIgnoreCase);
 
-                //fieldChanges dictionary should have the same keys as fields, because the mapping could use also other attributes as those contained in JiraChangeItem
-                foreach (var field in fields)
-                {
-                    fieldChanges[field.Key] = field.Value;
-                }
 
 
                 var items = change.SelectTokens("$.items[*]")?.Cast<JObject>()?.Select(i => new JiraChangeItem(i));

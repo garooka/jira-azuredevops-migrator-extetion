@@ -5,7 +5,7 @@
         string OriginId { get; }
         string Type { get; }
 
-        string GetFieldValue(string fieldName);
+        object GetFieldValue(string fieldName);
 
     }
 }

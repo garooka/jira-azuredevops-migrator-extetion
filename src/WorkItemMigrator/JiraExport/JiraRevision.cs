@@ -57,9 +57,9 @@ namespace JiraExport
             return this.ParentItem.Key.CompareTo(other.ParentItem.Key);
         }
 
-        public string GetFieldValue(string fieldName)
+        public object GetFieldValue(string fieldName)
         {
-            return (string)(((IEnumerable<JiraRevision>)ParentItem.Revisions)
+            return (((IEnumerable<JiraRevision>)ParentItem.Revisions)
                 .Reverse()
                 .SkipWhile(r => r.Index > this.Index)
                 .FirstOrDefault(r => r.Fields.ContainsKey(fieldName))
