@@ -78,8 +78,6 @@ namespace JiraExport
                 List<RevisionAction<JiraAttachment>> attachmentChanges = new List<RevisionAction<JiraAttachment>>();
                 Dictionary<string, object> fieldChanges = new Dictionary<string, object>(StringComparer.InvariantCultureIgnoreCase);
 
-
-
                 var items = change.SelectTokens("$.items[*]")?.Cast<JObject>()?.Select(i => new JiraChangeItem(i));
                 foreach (var item in items)
                 {
@@ -145,7 +143,7 @@ namespace JiraExport
 
             var objectFields = new HashSet<string>() { "assignee", "creator", "reporter" };
             object from, to;
-            
+
             string fieldref = string.IsNullOrEmpty(item.Field) ? GetCustomFieldId(item.Field, jiraProvider) : GetFieldName(item.Field, jiraProvider);
 
             fields.TryGetValue(fieldref, out object aFieldValueFrom);
@@ -163,17 +161,43 @@ namespace JiraExport
             }
 
             // undo field change
-            if (aFieldValueFrom != null && aFieldValueFrom is List<string> &&
-                aFieldValueTo != null && aFieldValueTo is List<string>)
+            // if (aFieldValueFrom != null && aFieldValueFrom is List<string> && aFieldValueTo != null && aFieldValueTo is List<string>)
+            if (aFieldValueFrom is List<string> || aFieldValueTo is List<string>) 
             {
-                List<string> aFromList = (List<string>)aFieldValueFrom;
-                List<string> aToList = (List<string>)aFieldValueTo;
+                if(aFieldValueFrom == null)
+                {
+                    aFieldValueFrom = new List<string>();                    
+                } 
+                else if(aFieldValueFrom is List<string> == false)
+                {
+                    aFieldValueFrom = new List<string>() { aFieldValueFrom.ToString() };
+                }
 
-                //never remove the empty List<string>, because it won't be possible to determine the type: fields.Remove(fieldref);
+                if (aFieldValueTo == null)
+                {
+                    aFieldValueTo = new List<string>();
+                }
+                else if (aFieldValueTo is List<string> == false)
+                {
+                    aFieldValueTo = new List<string>() { aFieldValueTo.ToString() };
+                }
 
-                if (!string.IsNullOrEmpty(from as string ?? "")) aFromList.Add(from.ToString());
+                List<string> aFromList = (List<string>) aFieldValueFrom;
+                List<string> aToList = (List<string>) aFieldValueTo;
 
-                if (!string.IsNullOrEmpty(to as string ?? "")) aToList.Add(to.ToString());
+                fields[fieldref] = aFromList;
+                fieldChanges[fieldref] = aToList;
+
+                if(from == null)
+                {
+                    aToList.Clear();
+                    aToList.AddRange(aFromList.AsEnumerable());
+                    aFromList.Remove(to.ToString());                   
+                } else
+                {
+                    aFromList.Add(from.ToString());
+                    aToList.Remove(from.ToString()); //is this ok?
+                }
             }
             else if (string.IsNullOrEmpty(from as string ?? ""))
             {
@@ -383,8 +407,8 @@ namespace JiraExport
         protected static string GetFieldName(string fieldId, IJiraProvider jira)
         {
             var objectFields = new Dictionary<string, string>() {
-                { "components", "Component" },
-                { "fixVersions", "Fix Version" }
+                { "Component", "components" },
+                { "Fix Version", "fixVersions" }
             };
 
             objectFields.TryGetValue(fieldId, out string aFieldName);

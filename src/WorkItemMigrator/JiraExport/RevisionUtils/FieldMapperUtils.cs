@@ -270,10 +270,10 @@ namespace JiraExport
         {
             r.Fields.TryGetValue(aFieldName, out object aValue);
 
-            if (aFieldName == null || (aValue != null && aValue is List<string> == false))
+            if (aFieldName == null )
                 throw new ArgumentNullException(nameof(aFieldName));
-
-            List<string> field = (List<string>)aValue;
+                    
+            List<string> field = (List<string>)(aValue != null && aValue is List<string> == false ? new List<string> { aValue.ToString() } : aValue);
 
             return MapArray(field);
         }
