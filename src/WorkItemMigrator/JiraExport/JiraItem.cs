@@ -161,7 +161,6 @@ namespace JiraExport
             }
 
             // undo field change
-            // if (aFieldValueFrom != null && aFieldValueFrom is List<string> && aFieldValueTo != null && aFieldValueTo is List<string>)
             if (aFieldValueFrom is List<string> || aFieldValueTo is List<string>) 
             {
                 if(aFieldValueFrom == null)
@@ -173,6 +172,7 @@ namespace JiraExport
                     aFieldValueFrom = new List<string>() { aFieldValueFrom.ToString() };
                 }
 
+                
                 if (aFieldValueTo == null)
                 {
                     aFieldValueTo = new List<string>();
@@ -181,6 +181,7 @@ namespace JiraExport
                 {
                     aFieldValueTo = new List<string>() { aFieldValueTo.ToString() };
                 }
+                
 
                 List<string> aFromList = (List<string>) aFieldValueFrom;
                 List<string> aToList = (List<string>) aFieldValueTo;
@@ -188,15 +189,15 @@ namespace JiraExport
                 fields[fieldref] = aFromList;
                 fieldChanges[fieldref] = aToList;
 
-                if(from == null)
-                {
-                    aToList.Clear();
-                    aToList.AddRange(aFromList.AsEnumerable());
-                    aFromList.Remove(to.ToString());                   
-                } else
+                 aToList.AddRange(aFromList.Except(aToList));
+
+                if (from == null)
+                {                  
+                    aFromList.Remove(to.ToString());
+                } 
+                else
                 {
                     aFromList.Add(from.ToString());
-                    aToList.Remove(from.ToString()); //is this ok?
                 }
             }
             else if (string.IsNullOrEmpty(from as string ?? ""))
