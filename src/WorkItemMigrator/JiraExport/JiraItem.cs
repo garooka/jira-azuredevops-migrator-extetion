@@ -5,7 +5,6 @@ using System.Text.RegularExpressions;
 
 using Atlassian.Jira;
 using Migration.Common;
-using Migration.Common.Config;
 using Migration.Common.Log;
 
 using Newtonsoft.Json.Linq;
@@ -124,7 +123,6 @@ namespace JiraExport
 
             return listOfRevisions;
         }
-
 
         private static void HandleCustomFieldChange(JiraChangeItem item, string customFieldName, Dictionary<string, object> fieldChanges, Dictionary<string, object> fields)
         {
@@ -416,7 +414,7 @@ namespace JiraExport
             
             return string.IsNullOrEmpty(aFieldName) ? fieldId : aFieldName;
         }
-        
+
         private static void UndoLinkChange(RevisionAction<JiraLink> linkChange, List<JiraLink> links)
         {
             if (linkChange.ChangeType == RevisionChangeType.Removed)
